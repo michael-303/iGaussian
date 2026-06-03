@@ -1,5 +1,6 @@
 import sys
-sys.path.append('/home/whao/pose_eatimate/Feed-forward_iGuassion-weight-matching-7-pose')
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import time
 import torch
 from torch.utils.data import Dataset,DataLoader
@@ -27,11 +28,18 @@ from utils.calculate_pose_loss import PoseLossCalculator
 from PIL import Image
 import torch
 
-# model_path = '/data1/whao_model/feed_forward_gaussian/best_model.pth' #model path of verification
-model_path = '/data1/whao_model/pose_estimate/whole_process/1/model/ep119.pth' #model path of verification
+import os
 
-''' parameter from config '''
-config_file = './config_blender.py'
+# Create a temporary parser just for these config variables,
+# the main parser is created below in __main__
+temp_parser = ArgumentParser(description="Matching verification config script", add_help=False)
+temp_parser.add_argument("--pose_model_path", type=str, default="./checkpoints/best_model.pth", help="Path to the pose estimation model checkpoint")
+temp_parser.add_argument("--config_file", type=str, default=os.path.join(os.path.dirname(__file__), "config_blender.py"), help="Path to config file")
+
+temp_args, _ = temp_parser.parse_known_args()
+
+model_path = temp_args.pose_model_path
+config_file = temp_args.config_file
 configs = load_config_module(config_file)
 
 def val(target_imgs, source_imgs, source_poses, target_pose, model_net):
@@ -60,7 +68,18 @@ if __name__ == "__main__":
     parser.add_argument("--obs_img_index", default=0, type=int)
     parser.add_argument("--delta", default="[30,10,5,0.1,0.2,0.3]", type=str)
     parser.add_argument("--iteration", default=-1, type=int)
+
+    # re-add our config arguments to the main parser so they show up in help
+    parser.add_argument("--pose_model_path", type=str, default="./checkpoints/best_model.pth", help="Path to the pose estimation model checkpoint")
+    parser.add_argument("--config_file", type=str, default=os.path.join(os.path.dirname(__file__), "config_blender.py"), help="Path to config file")
+
     args = get_combined_args(parser)
+
+    # if empty default for GS model, let's inject ./C101
+    if not args.model_path:
+        args.model_path = "./C101"
+    if not args.source_path:
+        args.source_path = "./C101"
 
     args.data_device = torch.device('cuda:0') 
 
