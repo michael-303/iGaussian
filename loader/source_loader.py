@@ -1,5 +1,6 @@
 import sys
-sys.path.append('/home/whao/pose_eatimate/dataset/db/Ablation/24-source')
+import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import pdb
 from math import sin, cos, pi

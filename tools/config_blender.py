@@ -17,7 +17,7 @@ from albumentations.pytorch import ToTensorV2
 # val_gt_paths = '/data1/whao_dataset/OpenLane/OpenLane_1.2/openlane1.2/OpenLane/lane3d_1000_v1.1/validation'
 # val_image_paths = '/data1/whao_dataset/OpenLane/OpenLane_1.2/openlane1.2/OpenLane/images/validation'
 
-model_save_path = "/data1/whao_model/pose_estimate/whole_process/eight/step--1--1"
+model_save_path = "./checkpoints/"
 
 ''' loader '''
 # x_range = (3, 103)
@@ -51,35 +51,11 @@ hparams = argparse.Namespace(
 
     # base_dirs_train = ['../data/nerf_synthetic/lego', '../data/nerf_synthetic/chair', '../data/nerf_synthetic/drums', '../data/nerf_synthetic/ficus', 
     #              '../data/nerf_synthetic/hotdog', '../data/nerf_synthetic/lego', '../data/nerf_synthetic/materials', '../data/nerf_synthetic/mic', '../data/nerf_synthetic/ship'],
-    base_dirs_train = ['/home/whao/pose_eatimate/data/nerf_synthetic/chair', 
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/drums', 
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/ficus',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/hotdog',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/lego',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/materials',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/mic',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/ship',
-                       ],
+    base_dirs_train = ['./C101'],
 
-    base_dirs_val = ['/home/whao/pose_eatimate/data/nerf_synthetic/chair', 
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/drums', 
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/ficus',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/hotdog',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/lego',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/materials',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/mic',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/ship',
-                       ],
+    base_dirs_val = ['./C101'],
 
-    base_dirs_test = ['/home/whao/pose_eatimate/data/nerf_synthetic/chair', 
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/drums', 
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/ficus',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/hotdog',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/lego',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/materials',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/mic',
-                       '/home/whao/pose_eatimate/data/nerf_synthetic/ship',
-                       ],
+    base_dirs_test = ['./C101'],
     half_res=True,
     testskip=1,
     n_fremes=7

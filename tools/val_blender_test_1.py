@@ -1,6 +1,6 @@
 import sys
-sys.path.append('/home/whao/pose_eatimate/Feed-forward_iGuassion-weight')
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import copy
 import time
@@ -41,11 +41,17 @@ from PIL import Image
 import torch
 from torchvision import transforms
 
-# model_path = '/data1/whao_model/feed_forward_gaussian/best_model.pth' #model path of verification
-model_path = '/data1/whao_model/pose_estimate/weight_4_true/best_model.pth' #model path of verification
+from argparse import ArgumentParser
+import argparse
 
-''' parameter from config '''
-config_file = './config_blender.py'
+# Create a temporary parser for these top-level config vars
+temp_parser = argparse.ArgumentParser(description="Verification script temp parser", add_help=False)
+temp_parser.add_argument("--pose_model_path", type=str, default="./checkpoints/best_model.pth", help="Path to the model checkpoint")
+temp_parser.add_argument("--config_file", type=str, default=os.path.join(os.path.dirname(__file__), "config_blender.py"), help="Path to config file")
+temp_args, _ = temp_parser.parse_known_args()
+
+model_path = temp_args.pose_model_path
+config_file = temp_args.config_file
 configs = load_config_module(config_file)
 
 def combine_3dgs_rotation_translation(R_c2w, T_w2c):
@@ -222,7 +228,16 @@ if __name__ == "__main__":
     parser.add_argument("--obs_img_index", default=0, type=int)
     parser.add_argument("--delta", default="[30,10,5,0.1,0.2,0.3]", type=str)
     parser.add_argument("--iteration", default=-1, type=int)
+
+    parser.add_argument("--pose_model_path", type=str, default="./checkpoints/best_model.pth", help="Path to the model checkpoint")
+    parser.add_argument("--config_file", type=str, default=os.path.join(os.path.dirname(__file__), "config_blender.py"), help="Path to config file")
+
     args = get_combined_args(parser)
+
+    if not args.model_path:
+        args.model_path = "./C101"
+    if not args.source_path:
+        args.source_path = "./C101"
 
     # device_id = 7  # 这里的 ID 是相对于 CUDA_VISIBLE_DEVICES 的
     # args.data_device = f'cuda:{device_id}'  # 将 cuda 映射到指定的 GPU

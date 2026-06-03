@@ -1,6 +1,6 @@
 import sys
-sys.path.append('/home/whao/3D_GS/Feed-forward_iGuassion')
 import os
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import numpy as np
 import copy
 import time
